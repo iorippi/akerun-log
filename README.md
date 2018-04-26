@@ -81,7 +81,7 @@ include 'akerun-log.php';
 $roomA = new AkerunLogByNFCUsers(array(
 	'name' => 'Room A',
 	'akerun_id' => 'xxxxx',
-	'access_token' => 'yyyyy',
+	'access_token' => 'yyyyy'
 ));
 echo $roomA->nfc_user_count;
 // 23
@@ -94,6 +94,7 @@ $roomB_param = array(
 	'name' => 'Room B',
 	'akerun_id' => 'ppppp',
 	'access_token' => 'qqqqq',
+	'log_hours' => 72, // last 3days
 );
 $roomB_all = new AkerunLogByUsers($roomB_param);
 $roomB_nfc = new AkerunLogByNFCUsers($roomB_param); // インスタンス間でキャッシュを共有しているのでAPIリクエストは１回のみ
