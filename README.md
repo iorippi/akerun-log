@@ -43,7 +43,7 @@ Array(
 	- (Array)
 	- ::AkerunLogByUsers
 	- ユーザ毎履歴
-	- ```php
+```php
 Array(
 	[ユーザID 1] => Array (
 		[full_name] => [ユーザ名 1],
