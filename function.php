@@ -64,7 +64,7 @@ class AkerunLog {
 		$log = json_decode($log_json, true);
 		$this->log = $log;
 		if (!$log['success'])
-			$this->akerun_json_error_log = "API returned error: ".$log['message'][0];
+			$this->akerun_json_error_log = "API returned error: ".$log['messages'][0];
 		else
 			$this->akerun_json_error_log = "Unknown Error";
 		
