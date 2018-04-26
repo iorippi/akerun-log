@@ -30,7 +30,10 @@ class AkerunLog {
 		$log_til = strtotime('now');
 		$akerun_cachefile_index = $this->akerun_id.'_'.$this->log_hours;
 		$akerun_cachefile_name = 'akerunlog-cache_'.$akerun_cachefile_index.'.json';
-		$akerun_log_cache_expire = $akerun_log_cache[$akerun_cachefile_index][1] ?: 0;
+		if (isset($akerun_log_cache[$akerun_cachefile_index]))
+			$akerun_log_cache_expire = $akerun_log_cache[$akerun_cachefile_index][1];
+		else
+			$akerun_log_cache_expire = 0;
 		if (!count($akerun_log_cache) || $akerun_log_cache_expire < $log_til) {
 			// 2-a-1 Get JSON from API Call
 			$log_from = strtotime('-'.$this->log_hours.' hours', $log_til);
@@ -70,9 +73,9 @@ class AkerunLog {
 		// 3. Convert JSON to PHP Array
 		$log = json_decode($log_json, true);
 		$this->log = $log;
-		if ($log['messages'])
+		if (isset($log['messages']))
 			$this->akerun_json_error_log = "API returned error message: ".$log['messages'][0];
-		elseif (!$log['success'])
+		elseif (!isset($log['success']))
 			$this->akerun_json_error_log = "Unknown Error";
 		
 		// test-0
