@@ -1,3 +1,4 @@
+<?php
 $akerun_log_cache = array ();
 class AkerunLog {
 	public $name;
@@ -152,3 +153,4 @@ class AkerunLogByNFCUsers extends AkerunLogByUsers {
 		<?php endif;
 	}
 }
+?>
