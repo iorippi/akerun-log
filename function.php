@@ -18,11 +18,11 @@ class AkerunLog {
 		$this->name = $options['name'];
 		$this->akerun_id = $options['akerun_id'];
 		$this->access_token = $options['access_token'];
-		if (!empty($options['log_hours']))
+		if (isset($options['log_hours']))
 			$this->log_hours = $options['log_hours'];
 		else
 			$this->log_hours = 24;
-		if (!empty($options['nfc_only']))
+		if (isset($options['nfc_only']))
 			$this->nfc_only = $options['nfc_only'];
 		else
 			$this->nfc_only = 1;
@@ -123,8 +123,6 @@ class AkerunLogByUsers extends AkerunLog {
 			array_push($log_users[$id]['history'], $history);
 		}
 		$this->log_users = $log_users;
-		echo 'testopt';
-		print_r($options['test']);
 		// test-1
 		if ($options['test'][1]):?>
 			<section class="akerun-log_test">
