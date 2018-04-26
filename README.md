@@ -116,7 +116,7 @@ Make API Call Cache per akerun_id every 50/n times in 60sec
 
 - AkerunLog
 	- Caching per time
-	- Error handling immediately after API call
+	- Error handling when API call exceeded 50times/minutes (API max request is not working?? will update if successful.)
 
 - - - - - - - - - - - - - - - - - -
 
