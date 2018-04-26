@@ -35,7 +35,8 @@ class AkerunLog {
 			);
 			$log_api_url = "https://api.akerun.com/v2/external/accesses?";
 			foreach ($log_api_param as $name => $val)
-				$this->log_api_url = $this->$log_api_url.$name.'='.$val.'&';
+				$log_api_url = $log_api_url.$name.'='.$val.'&';
+			$this->log_api_url = $log_api_url;
 			$log_json = file_get_contents($this->log_api_url);
 			if ($log_json !== false) {
 				//$log_json = mb_convert_encoding($log_json, 'UTF8', 'ASCII, JIS, UTF-8, EUC-JP, SJIS-WIN');
