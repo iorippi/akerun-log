@@ -18,8 +18,14 @@ class AkerunLog {
 		$this->name = $options['name'];
 		$this->akerun_id = $options['akerun_id'];
 		$this->access_token = $options['access_token'];
-		$this->log_hours = $options['log_hours'] ?: 24;
-		$this->nfc_only = $options['nfc_only'] ?: 1;
+		if (!empty($options['log_hours']))
+			$this->log_hours = $options['log_hours'];
+		else
+			$this->log_hours = 24;
+		if (!empty($options['nfc_only']))
+			$this->nfc_only = $options['nfc_only'];
+		else
+			$this->nfc_only = 1;
 		// 2-0 Check for JSON Cache
 		$log_til = strtotime('now');
 		$akerun_cachefile_index = $this->akerun_id.'_'.$this->log_hours;
@@ -64,9 +70,9 @@ class AkerunLog {
 		// 3. Convert JSON to PHP Array
 		$log = json_decode($log_json, true);
 		$this->log = $log;
-		if (!$log['success'])
-			$this->akerun_json_error_log = "API returned error: ".$log['messages'][0];
-		else
+		if ($log['messages'])
+			$this->akerun_json_error_log = "API returned error message: ".$log['messages'][0];
+		elseif (!$log['success'])
 			$this->akerun_json_error_log = "Unknown Error";
 		
 		// test-0
@@ -82,7 +88,8 @@ class AkerunLog {
 					<li><h2>$log_hours:</h2><pre><?php print_r($this->log_hours); ?></pre></li>
 					<li><h2>$max_api_request_per_minute:</h2><pre><?php print_r($this->max_api_request_per_minute); ?></pre></li>
 					<li><h2>$log_api_url:</h2><pre><?php print_r($this->log_api_url); ?></pre></li>
-					<li><h2>$akerun_json_error_log</h2><pre><?php print_r($this->akerun_json_error_log); ?></pre></li>
+					<li><h2>$nfc_only</h2><pre><?php print_r($this->nfc_only); ?></pre></li>
+					<li><h2>$akerun_json_error_log</h2><pre><?php print_r($this->akerun_json_error_log); ?></pre></li>	
 					<li><h2>$log:</h2><pre><?php print_r($this->log); ?></pre></li>
 				</ul>
 			</section>
@@ -116,6 +123,8 @@ class AkerunLogByUsers extends AkerunLog {
 			array_push($log_users[$id]['history'], $history);
 		}
 		$this->log_users = $log_users;
+		echo 'testopt';
+		print_r($options['test']);
 		// test-1
 		if ($options['test'][1]):?>
 			<section class="akerun-log_test">
