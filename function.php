@@ -81,6 +81,7 @@ class AkerunLog {
 					<li><h2>$log_hours:</h2><pre><?php print_r($this->log_hours); ?></pre></li>
 					<li><h2>$max_api_request_per_minute:</h2><pre><?php print_r($this->max_api_request_per_minute); ?></pre></li>
 					<li><h2>$log_api_url:</h2><pre><?php print_r($this->log_api_url); ?></pre></li>
+					<li><h2>$akerun_json_error_log</h2><pre><?php print_r($this->akerun_json_error_log); ?></pre></li>
 					<li><h2>$log:</h2><pre><?php print_r($this->log); ?></pre></li>
 				</ul>
 			</section>
