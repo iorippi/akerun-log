@@ -64,7 +64,8 @@ Array(
 		..
 	),
 	..
-)```
+)
+```
 - nfc_user_count
 	- (Number)
 	- ::AkerunLogByNFCUsers
