@@ -73,6 +73,7 @@ Array(
 
 ## Example
 ### Example A
+```php
 $roomA = new AkerunLogByNFCUsers(array(
 	'name' => 'Room A',
 	'akerun_id' => 'xxxxx',
@@ -80,8 +81,10 @@ $roomA = new AkerunLogByNFCUsers(array(
 ));
 echo $roomA->nfc_user_count;
 // 23
+```
 
 ### Example B: feature in version 0.3
+```php
 $roomB_param = array(
 	'name' => 'Room B',
 	'akerun_id' => 'ppppp',
@@ -89,6 +92,7 @@ $roomB_param = array(
 );
 $roomB_all = new AkerunLogByUsers($roomB_param);
 $roomB_nfc = new AkerunLogByNFCUsers($roomB_param);
+```
 
 - - - - - - - - - - - - - - - - - -
 
