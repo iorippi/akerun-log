@@ -2,6 +2,9 @@
 Akerun API interpreter for PHP
 Version 0.3
 
+## Prerequists
+- PHP Version > 5.5
+
 ## Classes
 ### AkerunLog
 (API アクセス、JSON の取得)
@@ -74,6 +77,7 @@ Array(
 ## Example
 ### Example A
 ```php
+include 'akerun-log.php';
 $roomA = new AkerunLogByNFCUsers(array(
 	'name' => 'Room A',
 	'akerun_id' => 'xxxxx',
@@ -83,15 +87,16 @@ echo $roomA->nfc_user_count;
 // 23
 ```
 
-### Example B: feature in version 0.3
+### Example B
 ```php
+include 'akerun-log.php';
 $roomB_param = array(
 	'name' => 'Room B',
 	'akerun_id' => 'ppppp',
 	'access_token' => 'qqqqq',
 );
 $roomB_all = new AkerunLogByUsers($roomB_param);
-$roomB_nfc = new AkerunLogByNFCUsers($roomB_param);
+$roomB_nfc = new AkerunLogByNFCUsers($roomB_param); // インスタンス間でキャッシュを共有しているのでAPIリクエストは１回のみ
 ```
 
 - - - - - - - - - - - - - - - - - -
@@ -111,11 +116,13 @@ Make API Call Cache per akerun_id every 50/n times in 60sec
 
 - AkerunLog
 	- Caching per time
-	- Error handling immediately after API call
+	- Error handling when API call exceeded 50times/minutes (API max request is not working?? will update if successful.)
 
 - - - - - - - - - - - - - - - - - -
 
 Tested on:
-PHP Version 5.5.27
+PHP Version
+	- 5.5.27
+	- 5.6.32
 
 - - - - - - - - - - - - - - - - - -
