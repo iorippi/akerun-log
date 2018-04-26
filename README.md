@@ -83,8 +83,8 @@ $roomA = new AkerunLogByNFCUsers(array(
 	'akerun_id' => 'xxxxx',
 	'access_token' => 'yyyyy'
 ));
-echo $roomA->nfc_user_count;
-// 23
+echo $roomA->nfc_user_count;	// 23
+echo $roomA->name;		// "Room A"
 ```
 
 ### Example B
