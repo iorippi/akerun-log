@@ -226,7 +226,7 @@ class AkerunLogByUsers extends AkerunLog {
 		}
 		$this->data_users = $data_users;
 
-		// 4. Output test (for development debugging)
+		// 3. Output test (for development debugging)
 		if ($this->test[1])
 			self::test_output('AkerunLogByUsers __construct');
 	}
@@ -234,23 +234,18 @@ class AkerunLogByUsers extends AkerunLog {
 class AkerunLogByNFCUsers extends AkerunLogByUsers {
 	public $nfc_user_count;
 	public function __construct($options) {
-		// 1. Create log (NFC Only)
+		// 1. Retrieve raw data
 		$options['nfc_only'] = TRUE; // NFC 制限を強制
 		parent::__construct($options);
-		// 2. Parse log
-		$this->nfc_user_count = array_reduce($this->log_users, function ($carry, $user_data) {
+		
+		// 2. Parse data
+		$this->nfc_user_count = array_reduce($this->data_users, function ($carry, $user_data) {
 			return $user_data['history'][0][0] == "nfc_outside" ? $carry + 1 : $carry;
 		}, 0);
-		// test-2
-		if ($options['test'][2]):?>
-			<section class="akerun-log_test">
-				<meta charset="utf-8">
-				<h1>AkerunLogByNFCUsers __construct</h1>
-				<ul>
-					<li><h2>$nfc_user_count:</h2><pre><?php print_r($this->nfc_user_count); ?></pre></li>
-				</ul>
-			</section>
-		<?php endif;
+
+		// 3. Output test (for development debugging)
+		if ($this->test[2])
+			self::test_output('AkerunLogByNFCUsers __construct');
 	}
 }
 ?>
