@@ -7,7 +7,7 @@
 	- - - - - - - - - - - - - - - - - - */
 // Config
 // * Last slash after directory name must be omitted
-define('AKERUNLOG_CACHE_DIR', ROOT_SRV_PATH.'akerun_cache');
+define('AKERUNLOG_CACHE_DIR', dirname(__FILE__).'/akerunlog_cache');
 define('AKERUNLOG_CACHE_FILENAME', 'cache.json');
 define('AKERUNLOG_CACHE_FILEPATH', AKERUNLOG_CACHE_DIR.'/'.AKERUNLOG_CACHE_FILENAME);
 class AkerunLog {
