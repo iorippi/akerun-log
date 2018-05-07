@@ -47,6 +47,7 @@ Get estimate of current total number of users in the room
 
 ## Options
 Common options for all Classes
+
 | Option Name | Default | Input |
 | ----------- | ------- | ----- |
 | `name` | none | (string) Name of the room |
