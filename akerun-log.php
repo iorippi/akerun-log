@@ -7,16 +7,17 @@
 	- - - - - - - - - - - - - - - - - - */
 // Config
 // * Last slash after directory name must be omitted
-define('AKERUNLOG_CACHE_DIR', ROOT_SRV_PATH.'akerun_cache');
+define('AKERUNLOG_CACHE_DIR', dirname(__FILE__).'/akerunlog_cache');
 define('AKERUNLOG_CACHE_FILENAME', 'cache.json');
 define('AKERUNLOG_CACHE_FILEPATH', AKERUNLOG_CACHE_DIR.'/'.AKERUNLOG_CACHE_FILENAME);
 class AkerunLog {
 	// Outputs (per single instance)
 	public $data; // Raw data (JSON from API Call to PHP Array, plus some metadata about execution process)
+	public $name;
 	protected $pid = 0;
 	protected $total_requests = 0;
 	// Outputs (shared across instances)
-	protected static $exec_err_log = array();
+	public static $exec_err_log = array();
 	protected static $data_cache = array ();
 	/*
 	$data_cache = array(
