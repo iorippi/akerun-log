@@ -130,7 +130,15 @@ class AkerunLog {
 }
 class AkerunLogByUsers extends AkerunLog {
 	public $log_users;
+	public $filter_id = array();
+	public $filter_full_name = array();
 	public function __construct($options) {
+		// 0. Apply options
+		if (isset($options['filter_id']))
+			$this->filter_id = $options['filter_id'];
+		if (isset($options['filter_full_name']))
+		$this->filter_full_name = $options['filter_full_name'];
+
 		// 1. Create log
 		parent::__construct($options);
 		if ($this->akerun_json_error_log !== null)
@@ -146,6 +154,8 @@ class AkerunLogByUsers extends AkerunLog {
 				$log_data['client_type'],
 				$log_data['created_at']
 			);
+			if (in_array($id, $this->filter_id) || in_array($full_name, $this->filter_full_name))
+				continue;
 			if (!array_key_exists($id, $log_users)) {
 				$log_users[$id] = array(
 					'name' => $full_name,
@@ -161,6 +171,7 @@ class AkerunLogByUsers extends AkerunLog {
 				<meta charset="utf-8">
 				<h1>AkerunLogByUsers __construct</h1>
 				<ul>
+					<li><h2>$filter:</h2><pre><?php print_r($this->filter); ?></pre></li>
 					<li><h2>$log_users:</h2><pre><?php print_r($this->log_users); ?></pre></li>
 				</ul>
 			</section>
