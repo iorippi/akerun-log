@@ -21,7 +21,7 @@ $roomA = new AkerunLogByNFCUsers(
 		'akerun_id' => 'A0000001',
 		'access_token' => 'abcdef123456789',
 		'log_hours' => 24 * 3,
-		'filter_user_full_name' =>
+		'filter_user_full_name' => array(
 			'Jon Doe',
 			'田中 太郎'
 		)
