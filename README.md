@@ -5,10 +5,9 @@ Version 0.8.0
 ## Get started
 
 1. Download akerun-log.php
-2. Edit `AKERUNLOG_CACHE_DIR`
-3. Call them from `include`
-4. Instantiate class and save to your favorite variable with options for your needs
-5. Access object!!
+2. Call them from `include`
+3. Instantiate class and save to your favorite variable with options for your needs
+4. Access object!!
 
 ## Example
 
@@ -139,9 +138,6 @@ It will automatically set maximum API request interval allowed in accordance to 
 - - - - - - - - - - - - - - - - - -
 
 ## Upcoming features
-
-- Easier cache file directory configuration
-	- I am currently too lazy, but this will be updated, such as using `__dir__` as a default for the parent for the cache directory.
 
 - Saving Daily logs (version 2?)
 	- Currently this doesn't really support caching on daily basis, but instead it only keeps the newest cache for the last 24 hours by default.
