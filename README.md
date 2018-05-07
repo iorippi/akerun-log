@@ -139,6 +139,13 @@ It will automatically set maximum API request interval allowed in accordance to 
 
 ## Upcoming features
 
+- 日本語で書く
+	- 変換面倒くさいので誰かやってくれ
+
+- Multiple instances
+	- This is possible already, though it isn't tested, and there's more than just one line that has to be fixed before putting onto test.
+	- Function for making it easier to handle. (Probably no one needs but..)
+
 - Saving Daily logs (version 2?)
 	- Currently this doesn't really support caching on daily basis, but instead it only keeps the newest cache for the last 24 hours by default.
 	- Maybe Cache in the all past days if it doesn't exist. (First visit on site since days after the last visit may take a while, also error prone for exceeding max-request for API.)
