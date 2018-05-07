@@ -49,18 +49,6 @@ class AkerunLog {
 	protected $nfc_only = TRUE;
 
 	public function __construct($options) {
-		/**
-		What this does:
-			1. Receive request
-			2. Check session cache, hard cache or API request
-			3. Return result or error
-		What parameter to pass on initializing:
-		(*: Required all time; **: Required when multiple requests called at once)
-		 -  $request*: Collection of variables set specifically for an instance
-		 -	$akerunlog_pid**: Internal id for each instance process (Mainly for debugging purpose)
-		 -	$total_requests_at_once**: Number of requests to be ran on this page (For purpose of calculating suitable caching interval)
-		 */
-
 		// 1. Update options
 		$this->pid++;
 		$this->total_requests++;
@@ -73,9 +61,9 @@ class AkerunLog {
 		$this->get_session_cache() || $this->get_hard_cache() || $this->get_api();
 		$this->data = self::$data_cache[$this->akerun_api_url];
 		
-		// test-0
-		if ($options['test'][0])
-			$this->test_output('AkerunLog');
+		// 4. Output test (for development debugging)
+		if ($this->test[0])
+			$this->test_output('AkerunLog __construct');
 	}
 	
 	private function write_exec_err_log($message) {
@@ -188,11 +176,11 @@ class AkerunLog {
 		return TRUE;
 	}
 
-	public function test_output() {
+	public function test_output($test_title) {
 		?>
 		<section class="akerun-log_test">
 			<meta charset="utf-8">
-			<h1><?php echo $testing_classname;?></h1>
+			<h1><?php echo $test_title;?></h1>
 			<ul>
 				<?php foreach ($this as $key => $value): ?>
 				<li>
@@ -207,42 +195,40 @@ class AkerunLog {
 }
 
 class AkerunLogByUsers extends AkerunLog {
-	public $log_users;
+	protected $data_users = array();
 	public function __construct($options) {
-		// 1. Create log
+		// 1. Retrieve raw data
 		parent::__construct($options);
-		if ($this->akerun_json_error_log !== null)
-			return;
-		// 2. Parse log
-		$log_users = array();
-		foreach ($this->log['accesses'] as $log_index => $log_data) {
-			if ($this->nfc_only && strpos($log_data['client_type'], 'nfc_') === FALSE)
-				continue;
+
+		// 2. Parse data
+		$data_users = array();
+		foreach ($this->data['accesses'] as $log_index => $log_data) {
+			// Retrieve info
 			$id = $log_data['user']['id'];
 			$full_name = $log_data['user']['full_name'];
 			$history = array(
-				$log_data['client_type'],
-				$log_data['created_at']
+				'client_type' => $log_data['client_type'],
+				'created_at' => $log_data['created_at']
 			);
-			if (!array_key_exists($id, $log_users)) {
-				$log_users[$id] = array(
+			// Ditch non-NFC users
+			if ($this->nfc_only && strpos($log_data['client_type'], 'nfc_') === FALSE)
+				continue;
+			// Ditch filtered users
+			if (in_array($id, $this->filter_user_id) || in_array($full_name, $this->filter_user_full_name))
+				continue;
+			if (!array_key_exists($id, $data_users)) {
+				$data_users[$id] = array(
 					'name' => $full_name,
 					'history' => array()
 				);
 			}
-			array_push($log_users[$id]['history'], $history);
+			array_push($data_users[$id]['history'], $history);
 		}
-		$this->log_users = $log_users;
-		// test-1
-		if ($options['test'][1]):?>
-			<section class="akerun-log_test">
-				<meta charset="utf-8">
-				<h1>AkerunLogByUsers __construct</h1>
-				<ul>
-					<li><h2>$log_users:</h2><pre><?php print_r($this->log_users); ?></pre></li>
-				</ul>
-			</section>
-		<?php endif;
+		$this->data_users = $data_users;
+
+		// 4. Output test (for development debugging)
+		if ($this->test[1])
+			self::test_output('AkerunLogByUsers __construct');
 	}
 }
 class AkerunLogByNFCUsers extends AkerunLogByUsers {
