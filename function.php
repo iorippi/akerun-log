@@ -1,4 +1,14 @@
 <?php
+/*  - - - - - - - - - - - - - - - - - - 
+
+	  HiUP Akerun API Interpreter
+	  Version 0.3.1
+
+	  (c)2018 Iori Tatsuguchi, HiUP
+
+	  source: https://github.com/iorippi/akerun-log/edit/development/function.php
+
+	- - - - - - - - - - - - - - - - - - */
 $akerun_log_cache = array ();
 class AkerunLog {
 	public $name;
@@ -13,7 +23,6 @@ class AkerunLog {
 	public function __construct($options) {
 		global $akerun_log_cache;
 		date_default_timezone_set("Asia/Tokyo");
-
 		// 1. Set Parameters
 		$this->name = $options['name'];
 		$this->akerun_id = $options['akerun_id'];
@@ -79,24 +88,44 @@ class AkerunLog {
 			$this->akerun_json_error_log = "Unknown Error";
 		
 		// test-0
-		if ($options['test'][0]):?>
-			<section class="akerun-log_test">
-				<meta charset="utf-8">
-				<h1>AkerunLog __construct</h1>
-				<ul>
-					<li><h2>$akerun_log_cache:</h2><pre><?php print_r($akerun_log_cache); ?></pre></li>
-					<li><h2>$name:</h2><pre><?php print_r($this->name); ?></pre></li>
-					<li><h2>$akerun_id:</h2><pre><?php print_r($this->akerun_id); ?></pre></li>
-					<li><h2>$access_token:</h2><pre><?php print_r($this->access_token); ?></pre></li>
-					<li><h2>$log_hours:</h2><pre><?php print_r($this->log_hours); ?></pre></li>
-					<li><h2>$max_api_request_per_minute:</h2><pre><?php print_r($this->max_api_request_per_minute); ?></pre></li>
-					<li><h2>$log_api_url:</h2><pre><?php print_r($this->log_api_url); ?></pre></li>
-					<li><h2>$nfc_only</h2><pre><?php print_r($this->nfc_only); ?></pre></li>
-					<li><h2>$akerun_json_error_log</h2><pre><?php print_r($this->akerun_json_error_log); ?></pre></li>	
-					<li><h2>$log:</h2><pre><?php print_r($this->log); ?></pre></li>
-				</ul>
-			</section>
-		<?php endif;
+		if ($options['test'][0]) {
+			$this->test_output('AkerunLog', array(
+				'akerun_log_cache',
+				'this->name',
+				'this->akerun_id',
+				'this->access_token',
+				'this->log_hours',
+				'this->max_api_request_per_minute',
+				'this->log_api_url',
+				'this->nfc_only',
+				'this->akerun_json_error_log',
+				'this->log'
+			));
+		}
+	}
+	public function test_output($testing_classname, $output_var) {
+		global $akerun_log_cache;
+		?>
+		<section class="akerun-log_test">
+			<meta charset="utf-8">
+			<h1><?php echo $testing_classname;?></h1>
+			<ul>
+				<?php foreach ($output_var as $index => $var_name): 
+				if (strpos($var_name, 'this->') !== false) {
+					$var_name = str_replace('this->', '', $var_name);
+					$target_var = $this->$var_name;
+				}
+				else
+					$target_var = ${$var_name};
+				?>
+				<li>
+					<h2><?php echo '$'.$var_name;?></h2>
+					<pre><?php print_r($target_var);?></pre>
+				</li>
+				<?php endforeach;?>
+			</ul>
+		</section>
+		<?php
 	}
 }
 class AkerunLogByUsers extends AkerunLog {
