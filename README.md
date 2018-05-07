@@ -21,7 +21,7 @@ $roomA = new AkerunLogByNFCUsers(
 		'akerun_id' => 'A0000001',
 		'access_token' => 'abcdef123456789',
 		'log_hours' => 24 * 3,
-		'filter_user_full_name' =>
+		'filter_user_full_name' => array(
 			'Jon Doe',
 			'田中 太郎'
 		)
@@ -138,6 +138,13 @@ It will automatically set maximum API request interval allowed in accordance to 
 - - - - - - - - - - - - - - - - - -
 
 ## Upcoming features
+
+- 日本語で書く
+	- 変換面倒くさいので誰かやってくれ
+
+- Multiple instances
+	- This is possible already, though it isn't tested, and there's more than just one line that has to be fixed before putting onto test.
+	- Function for making it easier to handle. (Probably no one needs but..)
 
 - Saving Daily logs (version 2?)
 	- Currently this doesn't really support caching on daily basis, but instead it only keeps the newest cache for the last 24 hours by default.
