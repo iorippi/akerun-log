@@ -1,20 +1,15 @@
 <?php
 /*  - - - - - - - - - - - - - - - - - - 
-
 	  HiUP Akerun API Interpreter
 	  Version 0.8.0
-
 	  (c)2018 Iori Tatsuguchi, HiUP
-
 	  source: https://github.com/iorippi/akerun-log/edit/feature-update/function.php
-
 	- - - - - - - - - - - - - - - - - - */
 // Config
 // * Last slash after directory name must be omitted
 define('AKERUNLOG_CACHE_DIR', ROOT_SRV_PATH.'akerun_cache');
 define('AKERUNLOG_CACHE_FILENAME', 'cache.json');
 define('AKERUNLOG_CACHE_FILEPATH', AKERUNLOG_CACHE_DIR.'/'.AKERUNLOG_CACHE_FILENAME);
-
 class AkerunLog {
 	// Outputs (per single instance)
 	public $data; // Raw data (JSON from API Call to PHP Array, plus some metadata about execution process)
@@ -37,26 +32,23 @@ class AkerunLog {
 	// Specific settings
 	protected $akerun_params = array(
 		'akerun_id'		=> '',		// *Required
-		'offset'		=> NULL,		// API Default: 0
+		'offset'		=> NULL,	// API Default: 0
 		'limit'			=> 300,		// API Default: 20
-		'from'			=> NULL,		// API Default: As far as limit goes?
-		'til'			=> NULL,		// API Default: Now?
+		'from'			=> NULL,	// API Default: As far as limit goes?
+		'til'			=> NULL,	// API Default: Now?
 		'access_token'	=> ''		// *Required
 	);
 	protected $log_hours = 24;		// [NULL | number] if non-NULL, overrides $akerun_params['from'] ---future implementation: daily, weekly
 	protected $filter_user_id = array();
 	protected $filter_user_full_name = array();
 	protected $nfc_only = TRUE;
-
 	public function __construct($options) {
 		// 1. Update options
 		$this->pid++;
 		$this->total_requests++;
 		$this->update_options($options);
-
 		// 2. Set timezone
 		date_default_timezone_set($this->timezone);
-
 		// 3. Check session cache, hard cache or API request
 		$this->get_session_cache() || $this->get_hard_cache() || $this->get_api();
 		$this->data = self::$data_cache[$this->akerun_api_url];
@@ -78,7 +70,6 @@ class AkerunLog {
 			else
 				$this->$option_name = $option_value;
 		}
-
 		// Set time variables
 		// - Set [til] and [from] (Will not override if [til] has already set)
 		// - [til] has to be set for better cache controlling purpose
@@ -93,18 +84,15 @@ class AkerunLog {
 			$from = strtotime('-'.$this->log_hours.' hours', strtotime($this->akerun_params['til']));
 			$this->akerun_params['from'] = date('Y-m-d\TH:i:s\.000\Z', $from);
 		}
-
 		// Clean-up unspecified parameters
 		$this->akerun_params = array_filter($this->akerun_params, function($cur) {
 			return $cur !== NULL;
 		});
-
 		// Set URL for API call
 		$url = $this->akerun_api_url.'?';
 		foreach ($this->akerun_params as $param_name => $param_value)
 			$url = $url.$param_name.'='.$param_value.'&';
 		$this->akerun_api_url = rtrim($url, '&');
-
 		// Check required options before execution
 		if (!isset($this->$akerun_params['akerun_id'], $this->$akerun_params['access_token']))
 			$this->write_exec_err_log("AkerunLog::__construct: Required variable(s) are missing. Check [akerun_id] and [access_token]");
@@ -166,16 +154,13 @@ class AkerunLog {
 			);
 		}
 		self::$data_cache['apireq_count']++;
-
 		// Save to hard cache
 		$api_json = json_encode(self::$data_cache, TRUE);
 		if (!file_exists(AKERUNLOG_CACHE_DIR))
 			mkdir(AKERUNLOG_CACHE_DIR);
 		file_put_contents(AKERUNLOG_CACHE_FILEPATH, (string)$api_json);
-
 		return TRUE;
 	}
-
 	public function test_output($test_title) {
 		?>
 		<section class="akerun-log_test">
@@ -193,13 +178,11 @@ class AkerunLog {
 		<?php
 	}
 }
-
 class AkerunLogByUsers extends AkerunLog {
 	public $data_users = array();
 	public function __construct($options) {
 		// 1. Retrieve raw data
 		parent::__construct($options);
-
 		// 2. Parse data
 		$data_users = array();
 		foreach ($this->data['accesses'] as $log_index => $log_data) {
@@ -225,7 +208,6 @@ class AkerunLogByUsers extends AkerunLog {
 			array_push($data_users[$id]['history'], $history);
 		}
 		$this->data_users = $data_users;
-
 		// 3. Output test (for development debugging)
 		if ($this->test[1])
 			self::test_output('AkerunLogByUsers __construct');
@@ -242,7 +224,6 @@ class AkerunLogByNFCUsers extends AkerunLogByUsers {
 		$this->nfc_user_count = array_reduce($this->data_users, function ($carry, $user_data) {
 			return $user_data['history'][0][0] == "nfc_outside" ? $carry + 1 : $carry;
 		}, 0);
-
 		// 3. Output test (for development debugging)
 		if ($this->test[2])
 			self::test_output('AkerunLogByNFCUsers __construct');
