@@ -2,7 +2,7 @@
 /*  - - - - - - - - - - - - - - - - - - 
 
 	  HiUP Akerun API Interpreter
-	  Version 0.3.5
+	  Version 0.8.0
 
 	  (c)2018 Iori Tatsuguchi, HiUP
 
@@ -17,9 +17,9 @@ define('AKERUNLOG_CACHE_FILEPATH', AKERUNLOG_CACHE_DIR.'/'.AKERUNLOG_CACHE_FILEN
 
 class AkerunLog {
 	// Outputs (per single instance)
+	public $data; // Raw data (JSON from API Call to PHP Array, plus some metadata about execution process)
 	protected $pid = 0;
 	protected $total_requests = 0;
-	protected $data; // Raw data (JSON from API Call to PHP Array, plus some metadata about execution process)
 	// Outputs (shared across instances)
 	protected static $exec_err_log = array();
 	protected static $data_cache = array ();
@@ -195,7 +195,7 @@ class AkerunLog {
 }
 
 class AkerunLogByUsers extends AkerunLog {
-	protected $data_users = array();
+	public $data_users = array();
 	public function __construct($options) {
 		// 1. Retrieve raw data
 		parent::__construct($options);
