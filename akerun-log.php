@@ -238,7 +238,7 @@ class AkerunLogByNFCUsers extends AkerunLogByUsers {
 		
 		// 2. Parse data
 		$this->nfc_user_count = array_reduce($this->data_users, function ($carry, $user_data) {
-			return $user_data['history'][0][0] == "nfc_outside" ? $carry + 1 : $carry;
+			return $user_data['history'][0]['client_type'] == "nfc_outside" ? $carry + 1 : $carry;
 		}, 0);
 
 		// 3. Output test (for development debugging)
