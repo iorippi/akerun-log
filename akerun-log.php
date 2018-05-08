@@ -19,7 +19,6 @@ class AkerunLog {
 	public $name;
 	protected $pid = 0;
 	protected $total_requests = 0;
-	private $output_test;
 	// Outputs (shared across instances)
 	public static $exec_err_log = array();
 	protected static $data_cache = array ();
@@ -55,8 +54,8 @@ class AkerunLog {
 		$this->data = self::$data_cache[$this->akerun_api_url];
 		
 		// 4. Output test (for development debugging)
-		if ($this->output_test)
-			self::test_output(get_class($this));
+		if ($this->test && get_class($this) == 'AkerunLog')
+			self::test_output();
 	}
 	
 	private function write_exec_err_log($message) {
@@ -174,11 +173,11 @@ class AkerunLog {
 
 		return TRUE;
 	}
-	public function test_output($test_title) {
+	public function test_output() {
 		?>
 		<section class="akerun-log_test">
 			<meta charset="utf-8">
-			<h1><?php echo $test_title;?></h1>
+			<h1><?php echo get_class($this);?></h1>
 			<ul>
 				<?php foreach ($this as $key => $value): ?>
 				<li>
@@ -193,15 +192,8 @@ class AkerunLog {
 }
 class AkerunLogByUsers extends AkerunLog {
 	public $data_users = array();
-	private $output_test;
 
 	public function __construct($options) {
-		// Reserve 'test' switch for later
-		if (isset($options['test'])) {
-			$this->output_test = $options['test'];
-			unset($options['test']);
-		}
-
 		// 1. Retrieve raw data
 		parent::__construct($options);
 
@@ -232,21 +224,14 @@ class AkerunLogByUsers extends AkerunLog {
 		$this->data_users = $data_users;
 
 		// 3. Output test (for development debugging)
-		if ($this->output_test)
-			self::test_output(get_class($this));
+		if ($this->test && get_class($this) == 'AkerunLogByUsers')
+			self::test_output();
 	}
 }
 class AkerunLogByNFCUsers extends AkerunLogByUsers {
 	public $nfc_user_count;
-	private $output_test;
 
 	public function __construct($options) {
-		// Reserve 'test' switch for later
-		if (isset($options['test'])) {
-			$this->output_test = $options['test'];
-			unset($options['test']);
-		}
-
 		// 1. Retrieve raw data
 		$options['nfc_only'] = TRUE; // NFC 制限を強制
 		parent::__construct($options);
@@ -257,8 +242,8 @@ class AkerunLogByNFCUsers extends AkerunLogByUsers {
 		}, 0);
 
 		// 3. Output test (for development debugging)
-		if ($this->output_test)
-			self::test_output(get_class($this));
+		if ($this->test && get_class($this) == 'AkerunLogByNFCUsers')
+			self::test_output();
 	}
 }
 ?>
