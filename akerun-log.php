@@ -19,7 +19,6 @@ class AkerunLog {
 	public $name;
 	protected $pid = 0;
 	protected $total_requests = 0;
-	private $output_test;
 	// Outputs (shared across instances)
 	public static $exec_err_log = array();
 	protected static $data_cache = array ();
@@ -193,15 +192,8 @@ class AkerunLog {
 }
 class AkerunLogByUsers extends AkerunLog {
 	public $data_users = array();
-	private $output_test;
 
 	public function __construct($options) {
-		// Reserve 'test' switch for later
-		if (isset($options['test'])) {
-			$this->output_test = TRUE;
-			unset($options['test']);
-		}
-
 		// 1. Retrieve raw data
 		parent::__construct($options);
 
@@ -238,15 +230,8 @@ class AkerunLogByUsers extends AkerunLog {
 }
 class AkerunLogByNFCUsers extends AkerunLogByUsers {
 	public $nfc_user_count;
-	private $output_test;
 
 	public function __construct($options) {
-		// Reserve 'test' switch for later
-		if (isset($options['test'])) {
-			$this->output_test = TRUE;
-			unset($options['test']);
-		}
-
 		// 1. Retrieve raw data
 		$options['nfc_only'] = TRUE; // NFC 制限を強制
 		parent::__construct($options);
