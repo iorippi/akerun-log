@@ -62,6 +62,7 @@ Common options for all Classes
 | `filter_user_full_name` | `array()` | (array => string) User fullnames to ditch from the log |
 | `nfc_only` | `TRUE` | (boolean) Whether or not to filter non-NFC users <br>This will be forced to set `TRUE` for `AkerunLogByNFCUsers` |
 | `max_apireq_permin` | `50` | (int) Max API request to be executed in a minute (This is 50 [according to official statement](https://photosynth-inc.github.io/apidocs.html#api%E3%81%AE%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E5%88%B6%E9%99%90%E3%81%AF%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99%E3%81%8B) as the time when this is developed)
+| `test` | `FALSE` | (boolean) Whether or not to print out whole series of variables defined in class, including options. |
 
 ## Available objects
 - `name`: (string) Name for the room

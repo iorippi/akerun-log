@@ -55,8 +55,8 @@ class AkerunLog {
 		$this->data = self::$data_cache[$this->akerun_api_url];
 		
 		// 4. Output test (for development debugging)
-		if ($this->output_test)
-			self::test_output(get_class($this));
+		if ($this->test && get_class($this) == 'AkerunLog')
+			self::test_output();
 	}
 	
 	private function write_exec_err_log($message) {
@@ -174,11 +174,11 @@ class AkerunLog {
 
 		return TRUE;
 	}
-	public function test_output($test_title) {
+	public function test_output() {
 		?>
 		<section class="akerun-log_test">
 			<meta charset="utf-8">
-			<h1><?php echo $test_title;?></h1>
+			<h1><?php echo get_class($this);?></h1>
 			<ul>
 				<?php foreach ($this as $key => $value): ?>
 				<li>
@@ -232,8 +232,8 @@ class AkerunLogByUsers extends AkerunLog {
 		$this->data_users = $data_users;
 
 		// 3. Output test (for development debugging)
-		if ($this->output_test)
-			self::test_output(get_class($this));
+		if ($this->test && get_class($this) == 'AkerunLogByUsers')
+			self::test_output();
 	}
 }
 class AkerunLogByNFCUsers extends AkerunLogByUsers {
@@ -257,8 +257,8 @@ class AkerunLogByNFCUsers extends AkerunLogByUsers {
 		}, 0);
 
 		// 3. Output test (for development debugging)
-		if ($this->output_test)
-			self::test_output(get_class($this));
+		if ($this->test && get_class($this) == 'AkerunLogByNFCUsers')
+			self::test_output();
 	}
 }
 ?>
