@@ -21,7 +21,7 @@ class AkerunLog {
 	protected $total_requests = 0;
 	// Outputs (shared across instances)
 	public static $exec_err_log = array();
-	protected static $data_cache = array ();
+	protected static $data_cache = array();
 	// General settings
 	protected $max_apireq_permin = 50;// Max. API Call per minute
 	protected $akerun_api_url = "https://api.akerun.com/v2/external/accesses";
